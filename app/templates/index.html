@@ -6,13 +6,24 @@
         <input type="text" id="City" name="city">
         <button type="submit">Submit</button>
         {% if request.method == "POST" %}
-        <table>
-                {% for key, value in result.items() %}
-                    <tr>
-                        <td>{{ key }}</td>
-                        <td>{{ value }}</td>
-                    </tr>
-                {% endfor %}
+            <table>
+                {% if is_string %}
+                    {{ result }}
+                {% else %}
+                    {% for key, value in result.items() %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            {% if key == "Lows: " or key == "Highs: " %}
+                                <td>{{ value }}° F</td>
+                            {% elif key == "Humidity: " %}
+                                <td>{{ value }}%</td>
+                            {% else %}
+                                <td>{{ value }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endif %}
             {% endif %}
         </table>
+        {{ icon_id }}
     </html>
