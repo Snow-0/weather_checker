@@ -11,19 +11,26 @@
                     {{ result }}
                 {% else %}
                     {% for key, value in result.items() %}
+                        {% if key != "Icon" %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                {% if key == "Lows: " or key == "Highs: " %}
+                                    <td>{{ value }}° F</td>
+                                {% elif key == "Humidity: " %}
+                                    <td>{{ value }}%</td>
+                                {% else %}
+                                    <td>{{ value }}</td>
+                                {% endif %}
+                            </tr>
+                        {% else %}
                         <tr>
-                            <td>{{ key }}</td>
-                            {% if key == "Lows: " or key == "Highs: " %}
-                                <td>{{ value }}° F</td>
-                            {% elif key == "Humidity: " %}
-                                <td>{{ value }}%</td>
-                            {% else %}
-                                <td>{{ value }}</td>
-                            {% endif %}
+                          <td>
+                            <img src="{{ url_for('static', filename=icon) }}">
+                          </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
             {% endif %}
         </table>
-        {{ icon_id }}
     </html>

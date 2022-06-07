@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, url_for
+from flask import render_template, request
 from app.weather import get_weather_info
 
 
@@ -13,18 +13,10 @@ def result():
     if request.method == "POST":
         city = request.form.get("city")
         result = get_weather_info(city)
-        icon_id = ""
-        if "Icon" in result:
-            icon_id = result["Icon"]
-            del result["Icon"]
         is_string = False
+        icon = result["Icon"] + ".png"
         if type(result) is dict:
-            return render_template("index.html", result=result, icon=icon_id)
+            return render_template("index.html", result=result, icon=icon)
         else:
             is_string = True
-            return render_template(
-                "index.html", result=result, is_string=is_string, icon=icon_id
-            )
-
-        # <!-- <img src="{{ url_for('static',filename='icons' + {{ icon_id }} + '.png')}}" -->
-        # <!-- alt="img"> -->
+            return render_template("index.html", result=result, is_string=is_string)
